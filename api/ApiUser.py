@@ -1,4 +1,3 @@
-from xml.dom import ValidationErr
 from flask_restful import Resource, request
 from bson.objectid import ObjectId
 import json
