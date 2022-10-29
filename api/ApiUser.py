@@ -9,9 +9,10 @@ from collection.User import User
 
 class ApiUser(Resource):
   def get(self, id):
-    user = json.loads(User.objects(_id=ObjectId(id)).only('username', 'email').first().to_json())
-    user['uid'] = user.get('_id').get('$oid')
-    del user['_id']
+    user = User.objects(_id=ObjectId(id)).only('username', 'email', 'uid').exclude('_id').first()
+    if not user: return { 'message': 'user not found' }, 404
+
+    user = json.loads(user.to_json())
     return user
   def post(self):
     body = request.get_json()
@@ -19,7 +20,9 @@ class ApiUser(Resource):
     user_exist = User.objects(email=email).first()
     if user_exist: return { 'message': 'email is exists.' }, 303
 
-    user = User()
+    id = ObjectId()
+    user = User(_id=id)
+    user.uid = str(id)
     user.username = body.get('username')
     user.email = email
     user.password = body.get('password')
