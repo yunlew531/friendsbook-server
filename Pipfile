@@ -10,6 +10,7 @@ python-dotenv = "*"
 flask-restful = "*"
 gunicorn = "*"
 flask-bcrypt = "*"
+pyjwt = "*"
 
 [dev-packages]
 

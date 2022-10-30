@@ -3,6 +3,7 @@ from mongoengine import connect
 import os
 from dotenv import load_dotenv
 from flask_restful import Api
+from api.ApiAccount import ApiAccount
 from api.ApiUsers import ApiUsers
 from api.ApiUser import ApiUser
 load_dotenv()
@@ -21,6 +22,7 @@ connect(
 
 api.add_resource(ApiUsers, '/api/users')
 api.add_resource(ApiUser, '/api/user', '/api/user/<id>')
+api.add_resource(ApiAccount, '/api/account')
 
 if __name__ == '__main__':
   app.run()

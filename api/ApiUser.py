@@ -22,6 +22,8 @@ class ApiUser(Resource):
     if user_exist: return { 'message': 'email is exists.' }, 303
 
     password = body.get('password')
+    if not password: return { 'message': 'password required.' }
+    if len(password) < 6: return { 'message': 'password must be at least 6 characters.' }
     hash_password = bcrypt.generate_password_hash(password=password).decode('utf-8')
 
     id = ObjectId()
