@@ -14,6 +14,7 @@ api = Api(app)
 
 connect(
   db='Friendsbook',
+  alias='Friendsbook-alias',
   host='mongodb+srv://{}:{}@friendsbook.y5tntvm.mongodb.net/?retryWrites=true&w=majority'
     .format(MONGODB_USERNAME, MONGODB_PASSWORD)
 )

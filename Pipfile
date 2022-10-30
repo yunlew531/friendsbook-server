@@ -9,6 +9,7 @@ mongoengine = "*"
 python-dotenv = "*"
 flask-restful = "*"
 gunicorn = "*"
+flask-bcrypt = "*"
 
 [dev-packages]
 
