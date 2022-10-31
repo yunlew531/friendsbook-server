@@ -8,10 +8,12 @@ from api.UsersApi import UsersApi
 from api.UserApi import UserApi
 load_dotenv()
 from flasgger import Swagger
+from flask_cors import CORS
 MONGODB_USERNAME = os.getenv('MONGODB_USERNAME')
 MONGODB_PASSWORD = os.getenv('MONGODB_PASSWORD')
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": ['http://localhost:3000']}})
 api = Api(app)
 
 app.config['SWAGGER'] = {

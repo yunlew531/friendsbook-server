@@ -1,7 +1,7 @@
 tags:
   - user
 summary: 取得用戶資料
-description: ## 取得用戶資料
+description: '### 取得用戶資料'
 parameters:
   - name: uid
     in: path
@@ -30,7 +30,14 @@ responses:
         message:
           type: string
         user:
-          $ref: '#/definitions/User'
+          type: object
+          properties:
+            username:
+              type: string
+            email:
+              type: string
+            uid:
+              type: string
   404:
     description: 用戶不存在
     schema:

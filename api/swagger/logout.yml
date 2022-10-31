@@ -1,7 +1,7 @@
 tags:
   - account
 summary: 登出
-description: ## 登出
+description: '### 登出'
 parameters:
   - name: Authorization
     in: header
