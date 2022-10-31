@@ -1,0 +1,26 @@
+tags:
+  - account
+summary: 驗證登入
+description: ## 驗證登入
+parameters:
+  - name: Authorization
+    in: header
+    schema:
+      type: string
+    description: Jwt token
+    required: true
+responses:
+  200:
+    description: Success
+    schema:
+      properties:
+        message:
+          type: string
+        uid:
+          type: string
+  400:
+    description: token 錯誤或 token 過期
+    schema:
+      properties:
+         message:
+           type: string

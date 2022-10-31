@@ -7,10 +7,12 @@ from flask_bcrypt import Bcrypt
 import os
 import jwt
 import datetime
+from flasgger import swag_from
 bcrypt = Bcrypt()
 
 class AccountApi(Resource):
   # logout
+  @swag_from('swagger/logout.yml')
   def get(self):
     authorization = request.headers.get('Authorization')
     try:
@@ -19,6 +21,7 @@ class AccountApi(Resource):
       return { 'message': str(e) }, 400
     return { 'message': 'success' }
   # login
+  @swag_from('swagger/login.yml')
   def post(self):
     body = request.get_json()
     email = body.get('email')
@@ -38,6 +41,7 @@ class AccountApi(Resource):
     return { 'message': 'success', 'token': jwt_token}
 
 class CheckLoginApi(Resource):
+  @swag_from('swagger/check_login.yml')
   def get(self):
     authorization = request.headers.get('Authorization')
     try:

@@ -1,5 +1,3 @@
-from crypt import methods
-from email.policy import default
 from flask import Flask
 from mongoengine import connect
 import os
@@ -21,7 +19,7 @@ app.config['SWAGGER'] = {
     "description": "server: https://github.com/yunlew531/friendsbook-server\nfrontend: https://github.com/yunlew531/friendsbook",
     "version": "1.0.2",
     "termsOfService": "",
-    "hide_top_bar": True
+    "hide_top_bar": True,
 }
 Swagger(app)
 

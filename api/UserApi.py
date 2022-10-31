@@ -10,14 +10,15 @@ from collection.User import User
 from flasgger import swag_from
 
 class UserApi(Resource):
-  @swag_from('swagger/user.yml', methods=['GET'])
+  @swag_from('swagger/get_user.yml', methods=['GET'])
   def get(self, uid):
     user = User.objects(uid=uid).only('username', 'email', 'uid').exclude('_id').first()
     if not user: return { 'message': 'user not found' }, 404
 
     user = json.loads(user.to_json())
-    return user
-  @swag_from('swagger/user.yml', methods=['POST'])
+    return { 'message': 'success', 'user': user }
+
+  @swag_from('swagger/create_user.yml', methods=['POST'])
   def post(self):
     body = request.get_json()
     email = body.get('email')
@@ -25,8 +26,8 @@ class UserApi(Resource):
     if user_exist: return { 'message': 'email is exists.' }, 303
 
     password = body.get('password')
-    if not password: return { 'message': 'password required.' }
-    if len(password) < 6: return { 'message': 'password must be at least 6 characters.' }
+    if not password: return { 'message': 'password required.' }, 400
+    if len(password) < 6: return { 'message': 'password must be at least 6 characters.' }, 400
     hash_password = bcrypt.generate_password_hash(password=password).decode('utf-8')
 
     id = ObjectId()

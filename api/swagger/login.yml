@@ -1,0 +1,30 @@
+tags:
+  - account
+summary: 登入
+description: ## 登入
+parameters:
+  - name: body
+    in: body
+    schema:
+      type: object
+      properties:
+        email:
+          type: string
+          required: true
+        password:
+          type: string
+          required: true
+    required: true
+responses:
+  200:
+    description: Success
+    schema:
+      properties:
+        message:
+          type: string
+  400:
+    description: email 或密碼格式錯誤
+    schema:
+      properties:
+         message:
+           type: string

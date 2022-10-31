@@ -1,0 +1,39 @@
+tags:
+  - user
+summary: 取得用戶資料
+description: ## 取得用戶資料
+parameters:
+  - name: uid
+    in: path
+    type: string
+    required: true
+definitions:
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+        description: '用戶名，至少2字'
+        required: true
+      email:
+        type: string
+        required: true
+      password:
+        type: string
+        description: '密碼，至少6字'
+        required: true
+responses:
+  200:
+    description: Success
+    schema:
+      properties:
+        message:
+          type: string
+        user:
+          $ref: '#/definitions/User'
+  404:
+    description: 用戶不存在
+    schema:
+      properties:
+         message:
+           type: string

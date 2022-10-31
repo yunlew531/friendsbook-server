@@ -1,0 +1,39 @@
+tags:
+  - user
+summary: 建立用戶
+description: ## 建立用戶
+parameters:
+  - name: body
+    in: body
+    schema:
+      $ref: '#/definitions/User'
+    required: true
+responses:
+  201:
+    description: Success
+    schema:
+      properties:
+         message:
+           type: string
+  303:
+    description: 此信箱已註冊過
+    schema:
+      properties:
+         message:
+           type: string
+  400:
+    description: 相關欄位填寫錯誤，詳細請看 Model
+    schema:
+      properties:
+        message:
+          type: object
+          properties:
+            username:
+              type: string
+              description: '會提示錯誤訊息，此欄位若無錯誤則不回傳此欄位'
+            email:
+              type: string
+              description: '會提示錯誤訊息，此欄位若無錯誤則不回傳此欄位'
+            password:
+              type: string
+              description: '會提示錯誤訊息，此欄位若無錯誤則不回傳此欄位'
