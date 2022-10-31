@@ -8,7 +8,7 @@ sys.path.append('..')
 from utils.handle_field_error import handle_field_error
 from collection.User import User
 
-class ApiUser(Resource):
+class UserApi(Resource):
   def get(self, id):
     user = User.objects(_id=ObjectId(id)).only('username', 'email', 'uid').exclude('_id').first()
     if not user: return { 'message': 'user not found' }, 404

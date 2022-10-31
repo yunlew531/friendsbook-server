@@ -5,7 +5,7 @@ sys.path.append("..")
 from collection.User import User
 import json
 
-class ApiUsers(Resource):
+class UsersApi(Resource):
   def get(self):
     users = json.loads(User.objects().to_json())
     for user in users:

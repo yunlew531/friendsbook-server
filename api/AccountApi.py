@@ -9,14 +9,14 @@ import jwt
 import datetime
 bcrypt = Bcrypt()
 
-class ApiAccount(Resource):
+class AccountApi(Resource):
   # logout
   def get(self):
     authorization = request.headers.get('Authorization')
     try:
       jwt.decode(authorization, os.getenv('JWT_KEY'), algorithms=['HS256'])
     except jwt.exceptions.DecodeError as e:
-      return { 'message': str(e) }
+      return { 'message': str(e) }, 400
     return { 'message': 'success' }
   # login
   def post(self):
@@ -36,4 +36,3 @@ class ApiAccount(Resource):
     jwt_exp = datetime.datetime.now()+ datetime.timedelta(days=7)
     jwt_token = jwt.encode({'uid': uid, 'exp': jwt_exp}, os.getenv('JWT_KEY'), algorithm="HS256")
     return { 'message': 'success', 'token': jwt_token}
-
