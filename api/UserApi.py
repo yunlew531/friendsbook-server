@@ -7,14 +7,17 @@ bcrypt = Bcrypt()
 sys.path.append('..')
 from utils.handle_field_error import handle_field_error
 from collection.User import User
+from flasgger import swag_from
 
 class UserApi(Resource):
-  def get(self, id):
-    user = User.objects(_id=ObjectId(id)).only('username', 'email', 'uid').exclude('_id').first()
+  @swag_from('swagger/user.yml', methods=['GET'])
+  def get(self, uid):
+    user = User.objects(uid=uid).only('username', 'email', 'uid').exclude('_id').first()
     if not user: return { 'message': 'user not found' }, 404
 
     user = json.loads(user.to_json())
     return user
+  @swag_from('swagger/user.yml', methods=['POST'])
   def post(self):
     body = request.get_json()
     email = body.get('email')

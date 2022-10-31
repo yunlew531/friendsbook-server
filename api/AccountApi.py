@@ -36,3 +36,12 @@ class AccountApi(Resource):
     jwt_exp = datetime.datetime.now()+ datetime.timedelta(days=7)
     jwt_token = jwt.encode({'uid': uid, 'exp': jwt_exp}, os.getenv('JWT_KEY'), algorithm="HS256")
     return { 'message': 'success', 'token': jwt_token}
+
+class CheckLoginApi(Resource):
+  def get(self):
+    authorization = request.headers.get('Authorization')
+    try:
+      uid = jwt.decode(authorization, os.getenv('JWT_KEY'), algorithms=['HS256']).get('uid')
+    except jwt.exceptions.DecodeError as e:
+      return { 'message': str(e) }, 400
+    return { 'message': 'success', 'uid': uid }
