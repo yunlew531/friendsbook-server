@@ -19,21 +19,25 @@ responses:
     description: 此信箱已註冊過
     schema:
       properties:
-         message:
-           type: string
+        message:
+          type: string
+        code:
+          type: integer
+          example: 1
   400:
-    description: 相關欄位填寫錯誤，詳細請看 Model
+    description: "
+            code: 2 缺少用戶名\n
+            code: 3 缺少信箱\n
+            code: 4 缺少密碼\n
+            code: 5 密碼需為 string\n
+            code: 6 信箱格式錯誤\n
+            code: 7 用戶名需為 string\n
+            code: 8 用戶名至少要2字\n
+            code: 9 密碼至少要6字
+          "
     schema:
       properties:
         message:
-          type: object
-          properties:
-            username:
-              type: string
-              description: '會提示錯誤訊息，此欄位若無錯誤則不回傳此欄位'
-            email:
-              type: string
-              description: '會提示錯誤訊息，此欄位若無錯誤則不回傳此欄位'
-            password:
-              type: string
-              description: '會提示錯誤訊息，此欄位若無錯誤則不回傳此欄位'
+          type: string
+        code:
+          type: integer

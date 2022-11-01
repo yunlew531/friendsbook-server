@@ -22,18 +22,21 @@ class UserApi(Resource):
   def post(self):
     body = request.get_json()
     email = body.get('email')
+    username = body.get('username')
     user_exist = User.objects(email=email).first()
-    if user_exist: return { 'message': 'email is exists.' }, 303
+    if not username: return { 'message': 'username required.', 'code': 2 }, 400
+    if not email: return { 'message': 'email required.', 'code': 3 }, 400
+    if user_exist: return { 'message': 'email is exists.', 'code': 1 }, 303
 
     password = body.get('password')
-    if not password: return { 'message': 'password required.' }, 400
-    if len(password) < 6: return { 'message': 'password must be at least 6 characters.' }, 400
+    if not password: return { 'message': 'password required.', 'code': 4 }, 400
+    if type(password) != str: return { 'message': 'password invalid', 'code': 5 }, 400
     hash_password = bcrypt.generate_password_hash(password=password).decode('utf-8')
 
     id = ObjectId()
     user = User(_id=id)
     user.uid = str(id)
-    user.username = body.get('username')
+    user.username = username
     user.email = email
     user.password = hash_password
 
@@ -41,5 +44,17 @@ class UserApi(Resource):
       user.save()
     except Exception as e:
       errors = handle_field_error(e)
+      email_error = errors.get('email')
+      password_error = errors.get('password')
+      username_error = errors.get('username')
+
+      if email_error:
+        if 'Invalid email address' in errors.get('email'): return {'message': 'email invalid', 'code': 6}, 400
+      if username_error:
+        if 'StringField only accepts string values' in username_error:
+          return {'message': username_error, 'code': 7}, 400
+        if 'String value is too short': return {'message': username_error, 'code': 8}, 400
+      if password_error: 
+        if 'String value is too short' in password_error: return {'message': password_error, 'code': 9}, 400
       return {'message': errors}, 400
     return {'message': 'user created'}, 201

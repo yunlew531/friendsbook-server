@@ -23,8 +23,14 @@ responses:
         message:
           type: string
   400:
-    description: email 或密碼格式錯誤
+    description: "code: 1 缺少信箱\n
+      code: 2 缺少密碼\n
+      code: 3 密碼至少要6字\n
+      code: 4 沒有找到用戶\n
+      code: 5 密碼錯誤"
     schema:
       properties:
-         message:
-           type: string
+        message:
+          type: string
+        code:
+          type: integer
