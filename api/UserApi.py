@@ -10,11 +10,11 @@ from collection.User import User
 from flasgger import swag_from
 
 class UserApi(Resource):
+  # take profile by uid
   @swag_from('swagger/get_user.yml', methods=['GET'])
   def get(self, uid):
     user = User.objects(uid=uid).only('username', 'email', 'uid').exclude('_id').first()
     if not user: return { 'message': 'user not found' }, 404
-
     user = json.loads(user.to_json())
     return { 'message': 'success', 'user': user }
 

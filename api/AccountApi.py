@@ -1,4 +1,5 @@
 from flask_restful import Resource, request
+from flask import g
 import sys
 sys.path.append('..')
 import json
@@ -14,11 +15,6 @@ class AccountApi(Resource):
   # logout
   @swag_from('swagger/logout.yml')
   def get(self):
-    authorization = request.headers.get('Authorization')
-    try:
-      jwt.decode(authorization, os.getenv('JWT_KEY'), algorithms=['HS256'])
-    except jwt.exceptions.DecodeError as e:
-      return { 'message': str(e) }, 400
     return { 'message': 'success' }
   # login
   @swag_from('swagger/login.yml')
@@ -39,14 +35,11 @@ class AccountApi(Resource):
     uid = user.get('uid')
     jwt_exp = datetime.datetime.now()+ datetime.timedelta(days=7)
     jwt_token = jwt.encode({'uid': uid, 'exp': jwt_exp}, os.getenv('JWT_KEY'), algorithm="HS256")
-    return { 'message': 'success', 'token': jwt_token}
+    return { 'message': 'success', 'token': jwt_token, 'uid': uid }
 
 class CheckLoginApi(Resource):
   @swag_from('swagger/check_login.yml')
   def get(self):
-    authorization = request.headers.get('Authorization')
-    try:
-      uid = jwt.decode(authorization, os.getenv('JWT_KEY'), algorithms=['HS256']).get('uid')
-    except jwt.exceptions.DecodeError as e:
-      return { 'message': str(e) }, 400
+    uid = g.uid
+    if not uid: return { 'message': 'Authorization invalid' }
     return { 'message': 'success', 'uid': uid }

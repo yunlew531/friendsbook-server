@@ -1,13 +1,7 @@
 tags:
-  - account
+  - 不需驗證
 summary: 登出
 description: '### 登出'
-parameters:
-  - name: Authorization
-    in: header
-    schema:
-      type: string
-    required: true
 responses:
   200:
     description: Success
@@ -15,9 +9,3 @@ responses:
       properties:
         message:
           type: string
-  400:
-    description: token 錯誤或 token 過期
-    schema:
-      properties:
-         message:
-           type: string

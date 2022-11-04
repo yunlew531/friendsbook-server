@@ -1,7 +1,7 @@
 tags:
   - 需驗證 Authorization
-summary: 驗證登入
-description: '### 驗證登入'
+summary: 取得用戶資料
+description: '### 透過 token 取得用戶資料'
 parameters:
   - name: Authorization
     in: header
@@ -16,16 +16,29 @@ responses:
       properties:
         message:
           type: string
-        uid:
-          type: string
+        profile:
+          type: object
+          properties:
+            username:
+              type: string
+            email:
+              type: string
+            uid:
+              type: string
   401:
     description: token 欄位為空
     schema:
       properties:
-         message:
-           type: string
+          message:
+            type: string
   403:
     description: token 驗證失敗，token 可能錯誤或者過期
+    schema:
+      properties:
+         message:
+           type: string
+  404:
+    description: 用戶不存在
     schema:
       properties:
          message:

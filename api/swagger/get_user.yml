@@ -1,7 +1,7 @@
 tags:
-  - user
+  - 不需驗證
 summary: 取得用戶資料
-description: '### 取得用戶資料'
+description: '### 透過 uid 取得用戶資料'
 parameters:
   - name: uid
     in: path
@@ -29,7 +29,7 @@ responses:
       properties:
         message:
           type: string
-        user:
+        profile:
           type: object
           properties:
             username:
