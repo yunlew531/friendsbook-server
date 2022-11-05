@@ -17,7 +17,8 @@ class UserApi(Resource):
     if not user: return { 'message': 'user not found' }, 404
     user = json.loads(user.to_json())
     return { 'message': 'success', 'user': user }
-
+  
+  # create user
   @swag_from('swagger/create_user.yml', methods=['POST'])
   def post(self):
     body = request.get_json()

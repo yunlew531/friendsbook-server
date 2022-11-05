@@ -1,13 +1,19 @@
 tags:
   - 需驗證 Authorization
-summary: 驗證登入
-description: '### 驗證登入'
+summary: 上傳圖片
+description: '### formData 上傳圖片'
 parameters:
   - name: Authorization
     in: header
     schema:
       type: string
     description: Bearer <Jwt token>
+    required: true
+  - name: image-file
+    in: formData
+    schema:
+      type: file
+    description: 限 jpeg, jpg
     required: true
 responses:
   200:
@@ -16,15 +22,23 @@ responses:
       properties:
         message:
           type: string
-        uid:
+        url:
           type: string
-  401:
-    description: token 欄位為空
+  400:
+    description: 只能上傳 jpeg, jpg
     schema:
       properties:
         message:
           type: string
-        
+        code:
+          type: integer
+          example: 1
+  401:
+    description: token 欄位為空
+    schema:
+      properties:
+         message:
+           type: string
   403:
     description: token 驗證失敗，token 可能錯誤或者過期
     schema:
