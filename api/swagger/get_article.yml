@@ -1,0 +1,41 @@
+tags:
+  - 不需驗證
+summary: 取得單篇文章
+description: '### 取得單篇文章'
+parameters:
+  - name: id
+    in: parameters
+    type: string
+    required: true
+responses:
+  200:
+    description: Success
+    schema:
+      properties:
+        message:
+          type: string
+        article:
+          type: object
+          properties:
+            id:
+              type: string
+            published_at:
+              type: integer
+            content:
+              type: array
+              items: {
+                $ref: '#/definitions/Content'
+              }
+            author:
+              type: object
+              properties:
+                username:
+                  type: string
+                id:
+                  type: string
+  404:
+    description: 文章不存在
+    schema:
+      properties:
+         message:
+           type: string

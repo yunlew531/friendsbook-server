@@ -1,7 +1,7 @@
 tags:
   - 需驗證 Authorization
-summary: 發布個版文章
-description: '### 發布個版文章'
+summary: 發佈個版文章
+description: '### 發佈個版文章'
 parameters:
   - name: Authorization
     in: header

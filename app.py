@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask_restful import Api
 from api.AccountApi import AccountApi, CheckLoginApi
+from api.ArticleApi import ArticleApi
 from api.UsersApi import UsersApi
 from api.UserApi import UserApi
 from api.auth.UserAuthApi import UserAuthApi
@@ -72,6 +73,7 @@ api.add_resource(UserApi, '/api/user/<uid>', methods=['GET'], endpoint='user')
 api.add_resource(UserApi, '/api/user', methods=['POST'], endpoint='create_user')
 api.add_resource(AccountApi, '/api/account/logout', methods=['GET'], endpoint='logout')
 api.add_resource(AccountApi, '/api/account/login', methods=['POST'], endpoint='login')
+api.add_resource(ArticleApi, '/api/article/<id>', methods=['GET'], endpoint='article')
 
 # auth
 api.add_resource(CheckLoginApi, '/api/auth/check', endpoint='check')
