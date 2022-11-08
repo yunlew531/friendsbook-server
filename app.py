@@ -8,6 +8,7 @@ from api.UsersApi import UsersApi
 from api.UserApi import UserApi
 from api.auth.UserAuthApi import UserAuthApi
 from api.auth.ImageAuthApi import ImageAuthApi
+from api.auth.ArticleAuthApi import ArticleAuthApi
 import jwt
 load_dotenv()
 from flasgger import Swagger
@@ -35,12 +36,13 @@ storage = firebase.storage()
 app.config['SWAGGER'] = {
   "title": "Friendsbook API",
   "description": "server: https://github.com/yunlew531/friendsbook-server\nfrontend: https://github.com/yunlew531/friendsbook",
-  "version": "1.0.2",
+  "version": "1.0",
   "termsOfService": "",
   "hide_top_bar": True,
 }
 Swagger(app)
 
+# mongoDB
 connect(
   db='Friendsbook',
   alias='Friendsbook-alias',
@@ -75,6 +77,7 @@ api.add_resource(AccountApi, '/api/account/login', methods=['POST'], endpoint='l
 api.add_resource(CheckLoginApi, '/api/auth/check', endpoint='check')
 api.add_resource(UserAuthApi, '/api/auth/user', methods=['GET'], endpoint='user_auth')
 api.add_resource(ImageAuthApi, '/api/auth/image/upload', methods=['POST'], endpoint='image_upload')
+api.add_resource(ArticleAuthApi, '/api/auth/article', methods=['POST'], endpoint='article_publish')
 
 if __name__ == '__main__':
   app.run()

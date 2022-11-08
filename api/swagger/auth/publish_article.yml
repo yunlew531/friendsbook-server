@@ -1,0 +1,50 @@
+tags:
+  - 需驗證 Authorization
+summary: 發布個版文章
+description: '### 發布個版文章'
+parameters:
+  - name: Authorization
+    in: header
+    schema:
+      type: string
+    description: Bearer <Jwt token>
+    required: true
+  - name: content
+    in: body
+    schema : {
+      type : array,
+      items : {
+        $ref: '#/definitions/Content'
+      }
+    }
+    required: true
+responses:
+  200:
+    description: Success
+    schema:
+      properties:
+        message:
+          type: string
+  400:
+    description: "
+      code: 1 缺少 content 欄位\n
+      code: 2 content 欄位不得為空\n
+    "
+    schema:
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+  401:
+    description: token 欄位為空
+    schema:
+      properties:
+         message:
+           type: string
+  403:
+    description: token 驗證失敗，token 可能錯誤或者過期
+    schema:
+      properties:
+         message:
+           type: string

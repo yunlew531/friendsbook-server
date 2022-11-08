@@ -5,7 +5,6 @@ from bson.objectid import ObjectId
 from utils.handle_field_error import handle_field_error
 sys.path.append('../..')
 from collection.Image import Image
-from datetime import datetime
 from flasgger import swag_from
 
 class ImageAuthApi(Resource):
@@ -25,8 +24,6 @@ class ImageAuthApi(Resource):
     image = Image(_id=id)
     image.url = url
     image.author_uid = uid
-    image.published_at = datetime.now()
-    print(str(id))
 
     try:
       image.save()
