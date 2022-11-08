@@ -4,7 +4,7 @@ summary: 取得單篇文章
 description: '### 取得單篇文章'
 parameters:
   - name: id
-    in: parameters
+    in: path
     type: string
     required: true
 responses:
@@ -21,11 +21,12 @@ responses:
               type: string
             published_at:
               type: integer
+              description: timestamp
+              example: 1667926689
             content:
               type: array
-              items: {
+              items:
                 $ref: '#/definitions/Content'
-              }
             author:
               type: object
               properties:

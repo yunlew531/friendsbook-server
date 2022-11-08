@@ -1,5 +1,5 @@
-from mongoengine import Document, StringField, ObjectIdField, DateTimeField ,ListField, EmbeddedDocument, EmbeddedDocumentField, ReferenceField, QuerySet
-from datetime import datetime
+from mongoengine import Document, StringField, ObjectIdField, IntField ,ListField, EmbeddedDocument, EmbeddedDocumentField, ReferenceField, NULLIFY
+from time import time
 from collection.User import User
 from bson import json_util
 
@@ -12,17 +12,18 @@ class Content(EmbeddedDocument):
 class Article(Document):
   _id = ObjectIdField()
   content = ListField(EmbeddedDocumentField(Content))
-  published_at = DateTimeField(default=datetime.now())
-  author = ReferenceField(User, required=True)
+  published_at = IntField(default=time())
+  author = ReferenceField(User, required=True, reverse_delete_rule=NULLIFY)
 
   def to_json(self):
     data = self.to_mongo()
     del data['_id']
     data['id'] = str(self._id)
-    data['author'] = {
-      'username': self.author.username,
-      'id': str(self.author._id)
-    }
+    if self.author:
+      data['author'] = {
+        'username': self.author.username,
+        'id': str(self.author._id)
+      }
     return json_util.dumps(data)
 
   meta = {

@@ -7,10 +7,9 @@ from utils.handle_field_error import handle_field_error
 from collection.Article import Article
 from collection.User import User
 from flasgger import swag_from
-from datetime import datetime
 
 class ArticleAuthApi(Resource):
-  @swag_from('../swagger/auth/publish_article.yml')
+  @swag_from('../swagger/auth/publish_article.yml', methods=['GET'])
   def post(self):
     uid = g.uid
     body = request.get_json()

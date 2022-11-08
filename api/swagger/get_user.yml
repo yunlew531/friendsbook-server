@@ -7,28 +7,6 @@ parameters:
     in: path
     type: string
     required: true
-definitions:
-  User:
-    type: object
-    properties:
-      username:
-        type: string
-        description: '用戶名，至少2字'
-        required: true
-      email:
-        type: string
-        required: true
-      password:
-        type: string
-        description: '密碼，至少6字'
-        required: true
-  Content:
-    type: object
-    properties:
-      insert:
-        type: string
-        description: '文章每一行代表一個insert'
-        required: true
 responses:
   200:
     description: Success
