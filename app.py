@@ -10,7 +10,7 @@ from api.UserApi import UserApi
 from api.auth.PersonalPageArticlesApi import PersonalPageArticlesApi
 from api.auth.UserAuthApi import UserAuthApi
 from api.auth.ImageAuthApi import ImageAuthApi
-from api.auth.ArticleAuthApi import ArticleAuthApi
+from api.auth.ArticleAuthApi import ArticleAuthApi, ArticleThumbsUpApi
 import jwt
 load_dotenv()
 from flasgger import Swagger
@@ -63,10 +63,13 @@ def checkAuth():
     if not 'Bearer ' in authorization: return { 'message' : 'Authorization invalid' }, 403
     token = authorization.split('Bearer ')[1]
     try:
-      uid = jwt.decode(token, os.getenv('JWT_KEY'), algorithms=['HS256']).get('uid')
+      jwtDecode = jwt.decode(token, os.getenv('JWT_KEY'), algorithms=['HS256'])
+      uid = jwtDecode.get('uid')
+      username = jwtDecode.get('username')
     except Exception as e:
       return { 'message': e }, 403
     g.uid = uid
+    g.username = username
 
 # api
 api.add_resource(UsersApi, '/api/users', endpoint='users')
@@ -81,6 +84,7 @@ api.add_resource(CheckLoginApi, '/api/auth/check', endpoint='check')
 api.add_resource(UserAuthApi, '/api/auth/user', methods=['GET'], endpoint='user_auth')
 api.add_resource(ImageAuthApi, '/api/auth/image/upload', methods=['POST'], endpoint='image_upload')
 api.add_resource(ArticleAuthApi, '/api/auth/article', methods=['POST'], endpoint='article_publish')
+api.add_resource(ArticleThumbsUpApi, '/api/auth/article/thumbsup/<article_id>', methods=['POST'], endpoint='article_thumbs_up')
 api.add_resource(PersonalPageArticlesApi, '/api/auth/personal-page/articles')
 
 if __name__ == '__main__':

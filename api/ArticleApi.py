@@ -1,3 +1,4 @@
+from flask import g
 from flask_restful import Resource
 from collection.Article import Article
 from bson import ObjectId

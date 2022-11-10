@@ -26,15 +26,16 @@ class AccountApi(Resource):
     if not password: return { 'message': 'password required.', 'code': 2 }, 400
     if len(password) < 6: return { 'message': 'password must be at least 6 characters.', 'code': 3 }, 400
     
-    user = User.objects(email=email).only('password', 'uid').first()
+    user = User.objects(email=email).only('password', 'uid', 'username').first()
     if not user: return { 'message': 'user not found.', 'code': 4 }, 404
     user = json.loads(user.to_json())
     hash_password = user.get('password')
     is_password_valid = bcrypt.check_password_hash(hash_password, password)
     if not is_password_valid: return { 'message': 'password is wrong.', 'code': 5}, 400
     uid = user.get('uid')
+    username = user.get('username')
     jwt_exp = datetime.datetime.now()+ datetime.timedelta(days=7)
-    jwt_token = jwt.encode({'uid': uid, 'exp': jwt_exp}, os.getenv('JWT_KEY'), algorithm="HS256")
+    jwt_token = jwt.encode({'uid': uid, 'username': username, 'exp': jwt_exp}, os.getenv('JWT_KEY'), algorithm="HS256")
     return { 'message': 'success', 'token': jwt_token, 'uid': uid }
 
 class CheckLoginApi(Resource):

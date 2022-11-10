@@ -1,9 +1,9 @@
-from mongoengine import Document, StringField, DateTimeField, ObjectIdField
+from mongoengine import Document, StringField, IntField, ObjectIdField
 from time import time
 
 class Image(Document):
   _id = ObjectIdField()
-  published_at = DateTimeField(default=time())
+  published_at = IntField(default=time())
   url = StringField()
   author_uid = StringField()
 

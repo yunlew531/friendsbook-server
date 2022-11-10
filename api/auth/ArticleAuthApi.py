@@ -4,11 +4,12 @@ from flask import g
 import sys
 sys.path.append('../..')
 from utils.handle_field_error import handle_field_error
-from collection.Article import Article
+from collection.Article import Article, ThumbsUp
 from collection.User import User
 from flasgger import swag_from
 
 class ArticleAuthApi(Resource):
+  # publish article on personal page
   @swag_from('../swagger/auth/publish_article.yml', methods=['GET'])
   def post(self):
     uid = g.uid
@@ -32,12 +33,32 @@ class ArticleAuthApi(Resource):
     article = Article()
     article.content = content
     article.author = user
+    article.uid = g.uid
 
     try:
       article.save(validate=False)
     except Exception as e:
-      print(e)
-      errors = handle_field_error(e)
-      return { 'message': errors }, 500      
+      return { 'message': handle_field_error(e) }, 500      
 
     return { 'message': 'success' }
+
+class ArticleThumbsUpApi(Resource):
+  def post(self, article_id):
+    if not len(article_id) == 24: return { 'message': 'article not found' }, 404
+    article = Article.objects(_id=ObjectId(article_id)).first()
+    if not article: return {'message': 'article not found' }, 404
+    user = User.objects(_id=ObjectId(g.uid)).first()
+    user.save()
+
+    thumbs_up_exist = article.thumbs_up.filter(uid= g.uid)
+    if thumbs_up_exist: thumbs_up_exist.delete()
+    else: 
+      thumbsup = ThumbsUp(uid=g.uid)
+      article.thumbs_up.append(thumbsup)    
+    try:
+      article.save()
+    except Exception as e:
+      print(e)
+      return {'message': handle_field_error(e) }, 500
+
+    return {'message':'success' }

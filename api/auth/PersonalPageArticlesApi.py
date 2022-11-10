@@ -9,7 +9,7 @@ class PersonalPageArticlesApi(Resource):
   @swag_from('../swagger/auth/get_personal_page_articles.yml')
   def get(self):
     uid = g.uid
-    articles = Article.objects('author._id'==ObjectId(uid))
+    articles = Article.objects(uid=uid)
     articles_list = []
     for article in articles:
       articles_list.append(json.loads(article.to_json()))
